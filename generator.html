@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Page</title>
+    <style>
+        /* Background color and basic styling */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #add8e6, #90ee90); /* Soft blue to light green gradient */
+        }
+        .generator-container {
+            width: 400px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .generator-container h2 {
+            margin-bottom: 20px;
+        }
+        .joke-text {
+            font-size: 18px;
+            color: #333;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        .char-count {
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        .button-container button {
+            width: 48%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .generate-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .back-btn {
+            background-color: #f44336;
+            color: white;
+        }
+        .button-container button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator-container">
+        <h2>Random Joke Generator</h2>
+        <div class="joke-text" id="joke">Click the button to generate a joke!</div>
+        <div class="char-count" id="char-count"></div>
+        
+        <div class="button-container">
+            <button class="generate-btn" onclick="generateJoke()">Generate Joke</button>
+            <button class="back-btn" onclick="goBack()">Go Back</button>
+        </div>
+    </div>
+
+    <script>
+        // Function to fetch a random joke from the API
+        async function generateJoke() {
+            try {
+                // Fetch the joke from the official joke API
+                const response = await fetch('https://v2.jokeapi.dev/joke/Any');
+                const jokeData = await response.json();
+                
+                // Get the setup and punchline from the response
+                const joke = `${jokeData.setup} - ${jokeData.punchline}`;
+                
+                // Display the joke and the character count
+                document.getElementById("joke").textContent = joke;
+                document.getElementById("char-count").textContent = "Character Count: " + joke.length;
+            } catch (error) {
+                // Handle errors if the API request fails
+                document.getElementById("joke").textContent = "Oops! Something went wrong, please try again.";
+                document.getElementById("char-count").textContent = "";
+            }
+        }
+
+        // Function to go back to the login page
+        function goBack() {
+            window.location.href = "index.html"; // Assuming the login page is named index.html
+        }
+    </script>
+</body>
+</html>
